@@ -32,6 +32,11 @@ class Users extends Migration
                 'constraint' => 255,
                 'null' => true,
             ],
+            'reset_token' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
+            ],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('users');
