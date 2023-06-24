@@ -30,7 +30,13 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'PageController::index');
+
 $routes->get('/dashboard', 'PageController::dashboard');
+$routes->get('/profile', 'PageController::profile');
+
+$routes->get('/order/add', 'OrderController::add');
+$routes->post('/order/add', 'OrderController::processAdd');
+
 $routes->get('/login', 'PageController::login');
 $routes->post('/login', 'AuthController::processLogin');
 

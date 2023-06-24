@@ -1,7 +1,7 @@
 <nav class="navbar bg-green-900 text-white">
   <div class="container mx-auto flex items-center justify-between">
     <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl">Job Test</a>
+      <a class="btn btn-ghost normal-case text-xl" href="<?= site_url() ?>">Job Test</a>
     </div>
     <div class="flex-none flex items-center">
       <!-- <ul class="menu menu-horizontal px-1 items-center">
@@ -18,8 +18,10 @@
               <img src="<?= $imgsrc ?>" />
             </div>
           </label>
-          <ul tabindex="0" class="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 bg-white text-slate-900">
-            <li><a href="<?= site_url('logout') ?>">Logout</a></li>
+          <ul tabindex="0" class="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 bg-white text-slate-900 z-[999]">
+            <li><a href="<?= base_url('dashboard') ?>">Dashboard</a></li>
+            <li><a href="<?= base_url('profile') ?>">Profile</a></li>
+            <li><a href="<?= base_url('logout') ?>">Logout</a></li>
           </ul>
         </div>
       <?php else : ?>

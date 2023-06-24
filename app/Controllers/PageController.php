@@ -15,6 +15,12 @@ class PageController extends BaseController
         else return redirect()->to('login');
     }
 
+    public function profile() {
+        if(session()->get('email'))
+            return view('profile');
+        else return redirect()->to('login');
+    }
+
     public function login() {
         return view('login');
     }
