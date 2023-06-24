@@ -79,6 +79,11 @@ class OrderController extends BaseController
             'tinggi_barang' => $this->request->getVar('tinggi_barang'),
         ];
         $this->ordersModel->save($orderData);
-        return redirect()->to('dashboard')->with('success', 'Data berhasil diubah.');;
+        return redirect()->to('dashboard')->with('success', 'Data berhasil diubah.');
+    }
+
+    public function delete($id) {
+        $this->ordersModel->delete($id);
+        return redirect()->to('dashboard')->with('success', 'Data berhasil dihapus.');
     }
 }

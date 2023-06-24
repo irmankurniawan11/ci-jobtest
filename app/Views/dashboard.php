@@ -52,7 +52,11 @@
                                     <td><?= $order['status']; ?></td>
                                     <td>
                                         <a href="/order/edit/<?= $order['id']; ?>" class="btn btn-warning btn-small">Edit</a>
-                                        <a href="#" class="btn btn-error btn-small">Delete</a>
+                                        <form class="inline" action="/order/delete/<?= $order['id']; ?>" method="post">
+                                        <?= csrf_field(); ?>
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button  class="btn btn-error" onclick="return confirm('Are you sure you want to delete this data?')">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
