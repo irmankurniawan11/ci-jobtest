@@ -44,6 +44,8 @@ $routes->get('/reset-password/(:any)', 'AuthController::resetPassword/$1');
 $routes->post('/reset-password', 'AuthController::processResetPassword');
 
 $routes->get('/logout', 'AuthController::logout');
+
+$routes->post('/delete-photo/(:num)', 'AuthController::deletePhoto/$1');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -36,7 +36,7 @@ class AuthController extends BaseController
             'profile_picture' => $user['profile_picture']
         ]);
 
-        return redirect()->to('/');
+        return redirect()->to('dashboard');
     }
 
     public function processRegister() {
@@ -44,21 +44,23 @@ class AuthController extends BaseController
             'name' => 'required',
             'email' => 'required|valid_email|is_unique[users.email]',
             'password' => 'required|min_length[6]',
-            'profile_picture' => 'uploaded[profile_picture]|max_size[profile_picture,1024]|is_image[profile_picture]'
+            'profile_picture' => 'max_size[profile_picture,1024]|is_image[profile_picture]'
         ];
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-
+        $profilePictureName = null;
         $profilePicture = $this->request->getFile('profile_picture');
-        $profilePictureName = '';
-        if ($profilePicture->isValid() && !$profilePicture->hasMoved()) {
-            $newName = $profilePicture->getRandomName();
-            $profilePicture->move(ROOTPATH . 'public/uploads', $newName);
-            $profilePictureName = $profilePicture->getName();
+        if($profilePicture->getError() == 4) {
         }
-
+        else {
+            if ($profilePicture->isValid() && !$profilePicture->hasMoved()) {
+                $newName = $profilePicture->getRandomName();
+                $profilePicture->move(ROOTPATH . 'public/uploads', $newName);
+                $profilePictureName = $profilePicture->getName();
+            }
+        }
 
         $userModel = new UserModel();
         $userData = [
@@ -138,5 +140,33 @@ class AuthController extends BaseController
         ]);
 
         return redirect()->to('login')->with('success', 'Password reset successful. You can now log in with your new password.');
+    }
+
+    public function deletePhoto($id) {
+        if(session('user_id')!=$id) {
+            return redirect()->to(base_url())->with('error', 'Silakan login.');
+        }
+        $userModel = new UserModel();
+        $user = $userModel->where('id', $id)->first();
+
+        if(!$user) {
+            return redirect()->to(base_url())->with('error', 'User tidak ada.');
+        }
+        if($user['profile_picture']==null) {
+            return redirect()->to(base_url())->with('error', 'Tidak dapat menghapus.');
+        }
+
+        $userModel->update($user['id'], [
+            'profile_picture' => null
+        ]);
+
+        if($user['profile_picture']!=null) {
+            unlink(ROOTPATH . 'public/uploads/'.$user['profile_picture']);
+        }
+
+        session()->remove('profile_picture');
+        session()->regenerate();
+        
+        return redirect()->back()->with('success', 'Profile photo successfully deleted.');
     }
 }
