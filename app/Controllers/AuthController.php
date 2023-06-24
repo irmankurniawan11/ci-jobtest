@@ -143,17 +143,18 @@ class AuthController extends BaseController
     }
 
     public function deletePhoto($id) {
-        if(session('user_id')!=$id) {
-            return redirect()->to(base_url())->with('error', 'Silakan login.');
+        // dd(session()->get('user_id'));
+        if(session()->get('user_id')!=$id) {
+            return redirect()->back()->with('error', 'Silakan login.');
         }
         $userModel = new UserModel();
         $user = $userModel->where('id', $id)->first();
 
         if(!$user) {
-            return redirect()->to(base_url())->with('error', 'User tidak ada.');
+            return redirect()->back()->with('error', 'User tidak ada.');
         }
         if($user['profile_picture']==null) {
-            return redirect()->to(base_url())->with('error', 'Tidak dapat menghapus.');
+            return redirect()->back()->with('error', 'Tidak dapat menghapus.');
         }
 
         $userModel->update($user['id'], [

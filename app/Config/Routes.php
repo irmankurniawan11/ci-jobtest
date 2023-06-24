@@ -31,11 +31,13 @@ $routes->setAutoRoute(false);
 // route since we don't have to scan directories.
 $routes->get('/', 'PageController::index');
 
-$routes->get('/dashboard', 'PageController::dashboard');
+$routes->get('/dashboard', 'OrderController::index');
 $routes->get('/profile', 'PageController::profile');
 
 $routes->get('/order/add', 'OrderController::add');
 $routes->post('/order/add', 'OrderController::processAdd');
+$routes->get('/order/edit/(:num)', 'OrderController::edit/$1');
+$routes->post('/order/edit/(:num)', 'OrderController::update/$1');
 
 $routes->get('/login', 'PageController::login');
 $routes->post('/login', 'AuthController::processLogin');

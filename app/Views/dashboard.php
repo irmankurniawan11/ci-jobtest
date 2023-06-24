@@ -17,9 +17,12 @@
             <?php endif ?>
             <h1 class="font-bold text-4xl mb-4">Hello, <?= session()->get('name'); ?>!</h1>
             <div class="flex items-center justify-between">
-                <h3 class="font-bold text-2xl mb-4">Daftar Pemesananmu</h3>
-                <a href="/order/add" class="btn btn-primary">Place New Order</a>
+                <h3 class="font-bold text-2xl mb-4">Daftar Pengiriman Barang</h3>
+                <a href="/order/add" class="btn btn-primary">Kirimkan Barang Baru</a>
             </div>
+
+            <?php if(count($orders)>0) : ?>
+
             <div class="">
                 <div class="overflow-x-auto">
                     <table class="table">
@@ -37,24 +40,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- row 1 -->
-                            <tr>
-                                <th>1</th>
-                                <td>Barang X</td>
-                                <td>2 kg</td>
-                                <td>20 cm</td>
-                                <td>20 cm</td>
-                                <td>5 cm</td>
-                                <td>Sedang dijemput</td>
-                                <td>
-                                    <a href="#" class="btn btn-warning btn-small">Edit</a>
-                                    <a href="#" class="btn btn-error btn-small">Cancel</a>
-                                </td>
-                            </tr>
+                            <?php $i = 1; ?>
+                            <?php foreach ($orders as $order) : ?>
+                                <tr>
+                                    <th scope="row"><?= $i++ ?></th>
+                                    <td><?= $order['nama_barang']; ?></td>
+                                    <td><?= $order['berat_barang']; ?></td>
+                                    <td><?= $order['panjang_barang']; ?></td>
+                                    <td><?= $order['lebar_barang']; ?></td>
+                                    <td><?= $order['tinggi_barang']; ?></td>
+                                    <td><?= $order['status']; ?></td>
+                                    <td>
+                                        <a href="/order/edit/<?= $order['id']; ?>" class="btn btn-warning btn-small">Edit</a>
+                                        <a href="#" class="btn btn-error btn-small">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <?php else : ?>
+                <div class="py-16 text-center">
+                    <h1 class="font-bold text-2xl mb-2">Tidak ada barang</h1>
+                    <p class="mb-4">Kamu tidak memiliki barang baru untuk dikirimkan.</p>
+                    <a href="/order/add" class="btn btn-primary">Tambah Barang</a>
+                </div>
+            <?php endif ?>
         </div>
     </div>
 </section>
