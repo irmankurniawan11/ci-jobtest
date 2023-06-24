@@ -53,6 +53,13 @@ class OrderController extends BaseController
     }
 
     public function edit($id) {
+        $order = $this->ordersModel->where(['id'=>$id])->first();
+        if(empty($order)) {
+            return redirect()->to('dashboard')->with('error', 'Operasi ilegal.');
+        }
+        if($order['user_id'] != session()->get('user_id')) {
+            return redirect()->to('dashboard')->with('error', 'Operasi ilegal.');
+        }
         $data = [
             'order' => $this->ordersModel->getOrdersById($id)
         ];
@@ -60,6 +67,13 @@ class OrderController extends BaseController
     }
 
     public function update($id) {
+        $order = $this->ordersModel->where(['id'=>$id])->first();
+        if(empty($order)) {
+            return redirect()->to('dashboard')->with('error', 'Operasi ilegal.');
+        }
+        if($order['user_id'] != session()->get('user_id')) {
+            return redirect()->to('dashboard')->with('error', 'Operasi ilegal.');
+        }
         $rules = [
             'nama_barang' => 'required',
             'berat_barang' => 'required',
@@ -83,6 +97,13 @@ class OrderController extends BaseController
     }
 
     public function delete($id) {
+        $order = $this->ordersModel->where(['id'=>$id])->first();
+        if(empty($order)) {
+            return redirect()->to('dashboard')->with('error', 'Operasi ilegal.');
+        }
+        if($order['user_id'] != session()->get('user_id')) {
+            return redirect()->to('dashboard')->with('error', 'Operasi ilegal.');
+        }
         $this->ordersModel->delete($id);
         return redirect()->to('dashboard')->with('success', 'Data berhasil dihapus.');
     }
