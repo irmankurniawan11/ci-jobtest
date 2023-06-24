@@ -2,12 +2,16 @@
 
 namespace App\Controllers;
 
-class Home extends BaseController
+class PageController extends BaseController
 {
     public function index()
     {
+        return view('home');
+    }
+
+    public function dashboard() {
         if(session()->get('email'))
-            return view('home');
+            return view('dashboard');
         else return redirect()->to('login');
     }
 
